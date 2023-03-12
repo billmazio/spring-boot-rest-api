@@ -3,7 +3,6 @@ package com.friends.friends.controller;
 import com.friends.friends.dto.FriendRequest;
 import com.friends.friends.exception.FriendNotFoundException;
 import com.friends.friends.model.Friend;
-import com.friends.friends.repository.FriendRepository;
 import com.friends.friends.service.FriendService;
 
 import jakarta.validation.Valid;
@@ -40,6 +39,12 @@ public class FriendController {
     @GetMapping("/{id}")
     public ResponseEntity<Friend> getFriend(@PathVariable int id) throws FriendNotFoundException {
         return ResponseEntity.ok(friendService.getFriend(id));
+    }
+
+    @PutMapping("/friend/{id}/update")
+    public ResponseEntity<Friend> updateFriend(@RequestBody FriendRequest friendRequest,@PathVariable("id")int friendId) throws FriendNotFoundException {
+        return new ResponseEntity<>(friendService.updateFriend(friendRequest,friendId),HttpStatus.OK);
+
     }
 
     @DeleteMapping("/friend/{id}")

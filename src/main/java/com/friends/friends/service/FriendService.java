@@ -35,6 +35,20 @@ public class FriendService {
         }
     }
 
+    public Friend updateFriend(FriendRequest friendRequest , int id) throws FriendNotFoundException{
+        Friend friend = repository.findByFriendId(id);
+        friend.setFirstName(friendRequest.getFirstName());
+        friend.setLastName(friendRequest.getLastName());
+        friend.setEmail(friendRequest.getEmail());
+        friend.setMobile(friendRequest.getMobile());
+        if(friend != null) {
+            return friend;
+
+        }else {
+            throw new FriendNotFoundException("FRIEND NOT FOUND WITH ID:" + id);
+
+        }
+    }
 
 
     public void deleteFriend(int id) {
