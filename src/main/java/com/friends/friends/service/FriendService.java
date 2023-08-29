@@ -8,6 +8,7 @@ import com.friends.friends.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -34,21 +35,22 @@ public class FriendService {
             throw new FriendNotFoundException("FRIEND NOT FOUND WITH ID:" + id);
         }
     }
-
-    public Friend updateFriend(FriendRequest friendRequest , int id) throws FriendNotFoundException{
+    @Transactional
+    public Friend updateFriend(FriendRequest friendRequest, int id) throws FriendNotFoundException {
         Friend friend = repository.findByFriendId(id);
-        friend.setFirstName(friendRequest.getFirstName());
-        friend.setLastName(friendRequest.getLastName());
-        friend.setEmail(friendRequest.getEmail());
-        friend.setMobile(friendRequest.getMobile());
-        if(friend != null) {
+        if (friend != null) {
+            friend.setFirstName(friendRequest.getFirstName());
+            friend.setLastName(friendRequest.getLastName());
+            friend.setEmail(friendRequest.getEmail());
+            friend.setMobile(friendRequest.getMobile());
+            friend.getFriendId();
+
             return friend;
-
-        }else {
+        } else {
             throw new FriendNotFoundException("FRIEND NOT FOUND WITH ID:" + id);
-
         }
     }
+
 
 
     public void deleteFriend(int id) {
